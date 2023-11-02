@@ -5,7 +5,7 @@
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>Maven-Sdk-Helper</name>
+    <name>Maven Module SDK Helper</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="youngjin.kim2@navercorp.com" url="https://naver.com">Naver Corporation</vendor>
@@ -14,7 +14,18 @@
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    Lookup `properties.jdk.version` in pom.xml, and match proper module SDKs
+    Adds an action which sets the module SDKs of java maven modules automatically.<br/>
+    <br/>
+    You need to inform which SDKs should be used for each JDK versions, then this action tries to apply it to all the
+    modules in currently active project.<br/>
+    <br/>
+    The JDK version of each module is guessed by the `jdk.version` property in the `pom.xml` file.<br/>
+    <br/>
+    Based on below issue, it seems that Jetbrain hasn't yet clarified how module SDK settings for Maven projects
+    should be shared between team members. I trust that this issue will be resolved at some point in the future,
+    but for now, for my own mouse and wrist, I've developed and shared this plugin<br/>
+    <br/>
+    <a href="https://youtrack.jetbrains.com/issue/IDEA-17489/Project-JDK-should-use-JDK-defined-in-pom.xml">The issue</a>
   ]]></description>
 
     <!-- Product and plugin compatibility requirements.

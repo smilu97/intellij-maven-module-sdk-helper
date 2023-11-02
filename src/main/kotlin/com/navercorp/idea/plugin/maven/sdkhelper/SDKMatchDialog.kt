@@ -24,7 +24,7 @@ class SDKMatchDialog(
         return panel {
             versions.forEach { version ->
                 row {
-                    label("If jdk.version == $version, then use below SDK")
+                    label("If jdk.version == $version, then use")
                     val box  = comboBox(sdkOptions).component
                     comboBoxes[version] = box
                     box.item = "Ignore"
