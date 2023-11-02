@@ -5,17 +5,16 @@
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>Maven-sdk-helper</name>
+    <name>Maven-Sdk-Helper</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="support@yourcompany.com" url="https://www.yourcompany.com">YourCompany</vendor>
+    <vendor email="youngjin.kim2@navercorp.com" url="https://naver.com">Naver Corporation</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
+    Lookup `properties.jdk.version` in pom.xml, and match proper module SDKs
   ]]></description>
 
     <!-- Product and plugin compatibility requirements.
@@ -28,9 +27,10 @@
 
     </extensions>
     <actions>
-        <action id="com.navercorp.idea.plugin.maven.sdkhelper.mavensdkhelper.ElevateSDKAction"
-                class="com.navercorp.idea.plugin.maven.sdkhelper.mavensdkhelper.ElevateSDKAction" text="PinpointDev: Elevate SDK versions">
-            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl meta E"/>
+        <action id="com.navercorp.idea.plugin.maven.sdkhelper.MatchSDKAction"
+                class="com.navercorp.idea.plugin.maven.sdkhelper.MatchSDKAction" text="SDKHelper: Match module SDKs"
+                description="Select and Match module SDKS for each jdk.versions in maven pom.xml">
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl meta M"/>
         </action>
     </actions>
 </idea-plugin>
