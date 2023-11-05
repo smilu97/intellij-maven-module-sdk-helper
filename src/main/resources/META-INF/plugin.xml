@@ -28,6 +28,10 @@
     <a href="https://youtrack.jetbrains.com/issue/IDEA-17489/Project-JDK-should-use-JDK-defined-in-pom.xml">The issue</a>
   ]]></description>
 
+    <change-notes><![CDATA[
+    - It tries to guess proper JDK in prior
+  ]]></change-notes>
+
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
