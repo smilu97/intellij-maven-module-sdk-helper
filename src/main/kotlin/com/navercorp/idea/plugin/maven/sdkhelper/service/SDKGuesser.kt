@@ -1,4 +1,4 @@
-package com.navercorp.idea.plugin.maven.sdkhelper
+package com.navercorp.idea.plugin.maven.sdkhelper.service
 
 interface SDKGuesser {
 
