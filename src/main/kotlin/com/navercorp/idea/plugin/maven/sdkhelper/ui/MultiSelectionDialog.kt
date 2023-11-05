@@ -1,4 +1,4 @@
-package com.navercorp.idea.plugin.maven.sdkhelper
+package com.navercorp.idea.plugin.maven.sdkhelper.ui
 
 import com.intellij.openapi.observable.util.whenItemSelected
 import com.intellij.openapi.ui.DialogWrapper

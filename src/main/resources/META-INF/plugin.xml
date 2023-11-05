@@ -38,8 +38,8 @@
 
     </extensions>
     <actions>
-        <action id="com.navercorp.idea.plugin.maven.sdkhelper.MatchSDKAction"
-                class="com.navercorp.idea.plugin.maven.sdkhelper.MatchSDKAction" text="SDKHelper: Match module SDKs"
+        <action id="com.navercorp.idea.plugin.maven.sdkhelper.action.MatchSDKAction"
+                class="com.navercorp.idea.plugin.maven.sdkhelper.action.MatchSDKAction" text="SDKHelper: Match module SDKs"
                 description="Select and Match module SDKS for each jdk.versions in maven pom.xml">
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl meta M"/>
         </action>
