@@ -8,13 +8,17 @@ class LevenshteinSDKGuesser: SDKGuesser {
         var minDist = Int.MAX_VALUE
         var result: String? = null
         jdkNames.forEach { jdkName ->
-            val dist = getLevDistance(jdkVersion, jdkName)
+            val dist = getLevDistance(digits(jdkVersion), digits(jdkName))
             if (dist <= minDist) {
                 minDist = dist
                 result = jdkName
             }
         }
         return result
+    }
+
+    private fun digits(s: String): String {
+        return s.filter { it.isDigit() }
     }
 
     /**
