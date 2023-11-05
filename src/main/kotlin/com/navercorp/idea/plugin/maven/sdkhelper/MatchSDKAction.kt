@@ -8,8 +8,11 @@ import com.intellij.openapi.project.modules
 import com.intellij.openapi.projectRoots.ProjectJdkTable
 import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.openapi.roots.ModuleRootModificationUtil
+import javax.swing.Popup
 
 class MatchSDKAction: AnAction() {
+
+    private val guesser: SDKGuesser = LevenshteinSDKGuesser()
 
     override fun actionPerformed(e: AnActionEvent) {
         val project = ProjectUtil.getActiveProject()
@@ -25,8 +28,36 @@ class MatchSDKAction: AnAction() {
         println("versions: $versions")
         println("sdks: $sdkNames")
 
-        SDKMatchDialog(versions, sdkNames) { sdkNameMap ->
-            val sdkMap = buildSdkMap(jdkTable, sdkNameMap)
+        if (versions.isEmpty()) {
+            TextDialog(
+                title = "Error",
+                content = "`jdk.version` not found",
+            ).show()
+            return
+        }
+
+        if (sdkNames.isEmpty()) {
+            TextDialog(
+                title = "Error",
+                content = "Available JDK not found",
+            ).show()
+            return
+        }
+
+        val selections = versions.map { version ->
+            SelectionState(
+                key = version,
+                label = "If `jdk.version` is $version, use",
+                options = sdkNames,
+                selected = this.guesser.guess(version, sdkNames),
+            )
+        }
+
+        MultiSelectionDialog(
+            title = "Select JDKs",
+            selections = selections,
+        ) {
+            val sdkMap = buildSdkMap(jdkTable, selections)
             project.modules.forEach { module ->
                 try {
                     val version = ModuleUtil.guessJdkVersion(module)
@@ -38,12 +69,14 @@ class MatchSDKAction: AnAction() {
         }.show()
     }
 
-    private fun buildSdkMap(jdkTable: ProjectJdkTable, sdkNameMap: Map<String, String>): Map<String, Sdk> {
+    private fun buildSdkMap(jdkTable: ProjectJdkTable, selections: List<SelectionState>): Map<String, Sdk> {
         val result = HashMap<String, Sdk>()
-        sdkNameMap.entries.forEach { entry ->
-            val jdk = jdkTable.findJdk(entry.value)
-            if (jdk != null) {
-                result[entry.key] = jdk
+        selections.forEach { selection ->
+            if (selection.selected != null) {
+                val jdk = jdkTable.findJdk(selection.selected!!)
+                if (jdk != null) {
+                    result[selection.key] = jdk
+                }
             }
         }
         return result
