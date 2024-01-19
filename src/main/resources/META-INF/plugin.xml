@@ -19,7 +19,8 @@
     You need to inform which SDKs should be used for each JDK versions, then this action tries to apply it to all the
     modules in currently active project.<br/>
     <br/>
-    The JDK version of each module is guessed by the `jdk.version` property in the `pom.xml` file.<br/>
+    The JDK version of each module is guessed by the `jdk.version`, `maven.compiler.target`, `maven.compiler.source`
+    properties in the `pom.xml` file.<br/>
     <br/>
     Based on below issue, it seems that Jetbrain hasn't yet clarified how module SDK settings for Maven projects
     should be shared between team members. I trust that this issue will be resolved at some point in the future,

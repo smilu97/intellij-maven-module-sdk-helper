@@ -12,6 +12,10 @@ import com.navercorp.idea.plugin.maven.sdkhelper.ui.TextDialog
 
 class MatchSDKAction: AnAction() {
 
+    companion object {
+        private val JDK_VERSION_PROPERTIES = listOf("jdk.version", "maven.compiler.target", "maven.compiler.source")
+    }
+
     private val guesser: SDKGuesser = LevenshteinSDKGuesser()
     private val jdkService: JdkService = JdkServiceImpl()
     private val moduleService: ModuleService = MavenModuleService()
@@ -29,7 +33,7 @@ class MatchSDKAction: AnAction() {
             ?: throw RuntimeException("Project is ambiguous or does not exist")
 
         val modules = project.modules.mapNotNull { module ->
-            val version = this.moduleService.readJdkVersion(module) ?: return@mapNotNull null
+            val version = this.moduleService.readProperty(module, JDK_VERSION_PROPERTIES) ?: return@mapNotNull null
             ModuleAndJdkVersion(module, version)
         }
 
