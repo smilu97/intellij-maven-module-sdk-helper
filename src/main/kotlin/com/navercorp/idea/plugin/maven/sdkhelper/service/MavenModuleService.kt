@@ -6,28 +6,56 @@ import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.openapi.roots.ModuleRootModificationUtil
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader
 import java.io.File
+import java.nio.file.Path
 import kotlin.io.path.pathString
 
 class MavenModuleService: ModuleService {
 
-    override fun readJdkVersion(module: Module): String? {
+    override fun readProperty(module: Module, keys: List<String>): String? {
+        for (key in keys) {
+            val value = this.readProperty(module, key)
+            if (value != null) {
+                return value
+            }
+        }
+        return null
+    }
+
+    private fun readProperty(module: Module, key: String): String? {
         return try {
-            this.guessJdkVersion(module)
+            this.readProperty0(module, key)
         } catch (e: Exception) {
-            null;
+            null
         }
     }
 
-    private fun guessJdkVersion(module: Module): String {
-        val moduleDir = module.guessModuleDir()?.toNioPath() ?: throw RuntimeException("module-dir not found")
+    private fun readProperty0(module: Module, key: String): String? {
+        var moduleDir = module.guessModuleDir()?.toNioPath() ?: throw RuntimeException("module-dir not found")
 
+        for (i in 0..10) {
+            val jdkVersion = readPropertyAt(moduleDir, key)
+            if (jdkVersion != null) {
+                return jdkVersion
+            }
+
+            val parentModuleDir = moduleDir.parent
+            if (parentModuleDir == null || parentModuleDir == moduleDir) {
+                return null
+            }
+            moduleDir = parentModuleDir
+        }
+
+        return null
+    }
+
+    private fun readPropertyAt(moduleDir: Path, key: String): String? {
         val pomFile = File(moduleDir.pathString + "/pom.xml")
         if (!pomFile.exists()) {
-            throw RuntimeException("pom.xml not found")
+            return null
         }
 
         val pom = MavenXpp3Reader().read(pomFile.inputStream())
-        return pom.properties.getProperty("jdk.version") ?: throw RuntimeException("jdk.version not defined")
+        return pom.properties.getProperty(key)
     }
 
     override fun setModuleSdk(module: Module, sdk: Sdk) {
