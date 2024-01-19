@@ -30,7 +30,8 @@
   ]]></description>
 
     <change-notes><![CDATA[
-    - It tries to guess proper JDK in prior
+    - It also refers to `maven.compiler.target`, `maven.compiler.source` properties in the `pom.xml` file, not only `jdk.version`. <br />
+    - It also refers to the properties in pom.xml files in parent directories up to 10 depths.
   ]]></change-notes>
 
     <!-- Product and plugin compatibility requirements.
